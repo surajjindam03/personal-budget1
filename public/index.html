@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- This is an SEO Change -->
+    <meta charset="UTF-8" />
+    <meta
+      name="description"
+      content="Personal Budget Webpage Designed as part of assignment"
+    />
+    <meta http-equiv="Content-Type" content="text/html" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Personal Budget</title>
+    <link rel="stylesheet" href="reset.css" />
+    <link rel="stylesheet" href="main.css" />
+    <link rel="canonical" href="https://google.com" />
+  </head>
+  <body>
+    <!-- This is a Semantic HTML Change -->
+    <nav class="menu">
+      <ul>
+        <!-- This is an A11y Change -->
+        <li><a href="/" role="link" aria-label="Homepage">Homepage</a></li>
+        <li>
+          <a href="about.html" role="link" aria-label="AboutPage">About</a>
+        </li>
+        <li>
+          <a href="login.html" role="link" aria-label="LoginPage">Login</a>
+        </li>
+        <li>
+          <a href="https://google.com" role="link" aria-label="Google"
+            >Google</a
+          >
+        </li>
+      </ul>
+
+      <a href="https://google.com" role="link">
+        <img src="user.webp" alt="Profile Picture" class="image" />
+      </a>
+    </nav>
+
+    <!-- This is an A11y Change -->
+    <div class="skip">
+      <!-- This is an A11y Change -->
+      <a href="#main" role="link" aria-label="Skip to Content">
+        Skip to Content
+      </a>
+    </div>
+
+    <!-- This is a Semantic HTML Change -->
+    <header class="hero">
+      <h1>Personal Budget</h1>
+      <h2>A personal-budget management app</h2>
+    </header>
+
+    <!-- This is a Semantic HTML Change -->
+    <main class="container center" id="main">
+      <div class="page-area">
+        <!-- This is a Semantic HTML Change -->
+        <article>
+          <h1>Stay on track</h1>
+          <p>
+            Do you know where you are spending your money? If you really stop to
+            track it down, you would get surprised! Proper budget management
+            depends on real data... and this app will help you with that!
+          </p>
+        </article>
+
+        <article>
+          <h1>Alerts</h1>
+          <p>
+            What if your clothing budget ended? You will get an alert. The goal
+            is to never go over the budget.
+          </p>
+        </article>
+
+        <article>
+          <h1>Results</h1>
+          <p>
+            People who stick to a financial plan, budgeting every expense, get
+            out of debt faster! Also, they to live happier lives... since they
+            expend without guilt or fear... because they know it is all good and
+            accounted for.
+          </p>
+        </article>
+
+        <article>
+          <h1>Free</h1>
+          <p>This app is free!!! And you are the only one holding your data!</p>
+        </article>
+
+        <article>
+          <h1>Chart</h1>
+          <p>
+            <canvas id="myChart" width="400" height="400"></canvas>
+          </p>
+        </article>
+        <div id="pie-chart"></div>
+      </div>
+    </main>
+
+    <!-- T his is a Semantic HTML Change -->
+    <footer class="bottom">
+      <div class="center">
+        <p>Changed by Saisuraj Jindam</p>
+      </div>
+    </footer>
+
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.5.0/axios.min.js"
+      integrity="sha512-aoTNnqZcT8B4AmeCFmiSnDlc4Nj/KPaZyB5G7JnOnUEkdNpCZs1LCankiYi01sLTyWy+m2P+W4XM+BuQ3Q4/Dg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"
+      integrity="sha512-s+xg36jbIujB2S2VKfpGmlC3T5V2TF3lY48DX7u2r9XzGzgPsa6wTpOQA7J9iffvdeBN0q9tKzRxVxw1JviZPg=="
+      crossorigin="anonymous"
+    ></script>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script>
+      var dataSource = {
+        datasets: [
+          {
+            data: [30, 350, 90],
+            backgroundColor: [
+              "#ffcd56",
+              "#ff6384",
+              "#36a2eb",
+              "#fd6b19",
+              "#83FF33",
+              "#F633FF",
+              "#FF3333",
+            ],
+          },
+        ],
+        labels: [
+            'Eat out',
+            'Rent',
+            'Groceries'
+        ],
+      };
+
+      function createChart() {
+        var ctx = document.getElementById("myChart").getContext("2d");
+        var myPieChart = new Chart(ctx, {
+          type: "pie",
+          data: dataSource,
+        });
+      }
+      
+
+      function getBudget() {
+        axios.get("/budget").then(function (res) {
+          console.log(res.data);
+          for (var i = 0; i < res.data.length; i++) {
+            dataSource.datasets[0].data[i] = res.data[i].budget;
+            dataSource.labels[i] = res.data[i].title;
+          }
+          createChart();
+        }); 
+      }
+
+      getBudget();
+      
+
+    </script>
+  </body>
+</html>
